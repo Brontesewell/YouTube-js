@@ -4,14 +4,17 @@ const url = "https://www.googleapis.com/youtube/v3/activities?part=snippet,conte
 const songChannel = ["UC0C-w0YjGpqDXGB8IHb662A","UCANLZYMidaCbLQFWXBC95Jg"]//[Ed Sheeran(5),Taylor Swift(5)]
 const gamesChannel = ["UCfDT9kxAHL6M5Ssnbw02vZw","UCEe2aqK4fgDYTOjkZvTvang","UChhGJONwU_9ODfq5oy1dUaQ"] //[KCH Games TV,KingJoe83,HowAboutBeirut(Prank)]
 const moviesChannel = ["UCkAGrHCLFmlK3H2kd6isipg","UC7p3ER4LwElVAtmgWFdwhgQ"] //[Mr Bean,Monsters Inc Full Movie in English - New Animation Movie]
+const sportsChannel = ["UCr5vPy2YUScYtiyAYiGn2Rg","UCRijo3ddMTht_IHyNSNXpNQ"] //[Wrzzer,Dude Perfect]
 let songList = [];
 let gameList = [];
 let movieList = [];
+let sportList = [];
 
 document.addEventListener("DOMContentLoaded", function(){
     // songChannel.forEach(channel => { fetchSong(channel) })
     // gamesChannel.forEach(channel => { fetchGames(channel) })
-    moviesChannel.forEach(channel => {fetchMovies(channel)})
+    // moviesChannel.forEach(channel => {fetchMovies(channel)})
+    sportsChannel.forEach(channel => {fetchSport(channel)})
     listenForButtons();
 })
 
@@ -75,6 +78,26 @@ function listOfMovies(data)
     return movieList;
 }
 
+function fetchSport(channelId) 
+{
+    fetch(url+channelId+key) 
+    .then(resp => resp.json())
+    .then(data => { listOfSports(data) })
+}
+
+function listOfSports(data)
+{
+    for (let sport in data.items) 
+    {   if (data.items[sport].contentDetails.upload)
+        {   
+            let sportTitle = data.items[sport].snippet.title
+            let sportUrl = "https://www.youtube.com/watch?v="+data.items[sport].contentDetails.upload.videoId
+            sportList.push({Title:sportTitle,url:sportUrl});
+        }
+    }
+    return sportList;
+}
+
 function listenForButtons()
 {
     document.getElementById("dog-bar").addEventListener("click",handleClick)
@@ -99,7 +122,16 @@ function handleClick(event)
     }
     else if (event.target.textContent === 'Sport')
     {
-        console.log(" you are in the sports tab")
+        const ulTag = document.getElementById("side-bar")
+        for (const sport in sportList) 
+        {
+            let createLi = document.createElement("Li")
+            let createA = document.createElement("a")
+            createA.textContent = sportList[sport].Title
+            createA.setAttribute("href",`${sportList[sport].url}`)
+            createLi.appendChild(createA)
+            ulTag.appendChild(createLi)
+        }
     }
     else if (event.target.textContent === 'News')
     {
