@@ -5,12 +5,13 @@ console.log(request);
 
 // B0qhxT_TykOaYCEUGRvRrAuM
 
-const key = "&key=AIzaSyClWK6raBj4KMLWAwnX8KDT-EXU0HgdoRQ";
+const key = "&key=AIzaSyA169Pi-_WqugCQKdDQSpidq82hqf4ayYc";
 const url = "https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId="
 const songChannel = ["UC0C-w0YjGpqDXGB8IHb662A","UCANLZYMidaCbLQFWXBC95Jg"]//[Ed Sheeran(5),Taylor Swift(5)]
 
 document.addEventListener("DOMContentLoaded", function(){
     songChannel.forEach(channel => {fetchData(channel)}) 
+
 })
 
 function fetchData(channelId) 
@@ -36,5 +37,26 @@ function listOfId(songs)
             // console.log(songList)
         }
     }
+    renderSingleSong(songs)
     return songList;
 }
+
+function renderSingleSong(songs) {
+}
+
+
+
+function toogleWatchLater() {
+    const dogInfo = document.getElementById("watchlater");
+  
+     dogInfo.addEventListener("click", function(event){
+         if (event.target.tagName === "BUTTON") {
+             if (event.target.textContent == "Watch Later"){
+                 event.target.textContent = "Saved"
+             } else {
+                event.target.textContent = "Watch Later"
+          
+             }
+         }
+        })
+    }
