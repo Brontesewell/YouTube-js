@@ -12,8 +12,8 @@ function fetchData(channelId)
     fetch(url+channelId+key) 
     .then(resp => resp.json())
     .then(data => {
-        // console.log(data)
-        console.log(listOfId(data))
+        console.log(data)
+        // console.log(listOfId(data))
 })
 }
 
