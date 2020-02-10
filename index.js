@@ -2,26 +2,27 @@
 const key = "&key=AIzaSyA169Pi-_WqugCQKdDQSpidq82hqf4ayYc";
 const url = "https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId="
 const songChannel = ["UC0C-w0YjGpqDXGB8IHb662A","UCANLZYMidaCbLQFWXBC95Jg"]//[Ed Sheeran(5),Taylor Swift(5)]
-
+const gamesChannel = ["UCfDT9kxAHL6M5Ssnbw02vZw","UCEe2aqK4fgDYTOjkZvTvang","UChhGJONwU_9ODfq5oy1dUaQ"] //[KCH Games TV,KingJoe83,HowAboutBeirut(Prank)]
 let songList = [];
+let gameList = [];
 
 document.addEventListener("DOMContentLoaded", function(){
-    songChannel.forEach(channel => { fetchData(channel) })
-    console.log(songList)
+    // songChannel.forEach(channel => { fetchSong(channel) })
+    gamesChannel.forEach(channel => { fetchGames(channel) })
+
     listenForButtons();
 })
 
-function fetchData(channelId) 
+function fetchSong(channelId) 
 {
-    //songs
     fetch(url+channelId+key) 
     .then(resp => resp.json())
     .then(data => {
-        listOfId(data)
+        listOfSongs(data)
 })
 }
 
-function listOfId(data)
+function listOfSongs(data)
 {
     for (let song in data.items) 
     {   if (data.items[song].contentDetails.upload)
@@ -32,6 +33,28 @@ function listOfId(data)
         }
     }
     return songList;
+}
+
+function fetchGames(channelId)
+{
+    fetch(url+channelId+key) 
+    .then(resp => resp.json())
+    .then(data => {
+        listOfGames(data)
+})
+}
+
+function listOfGames(data)
+{
+    for (let game in data.items) 
+    {   if (data.items[game].contentDetails.upload)
+        {   
+            let gameTitle = data.items[game].snippet.title
+            let gameUrl = "https://www.youtube.com/watch?v="+data.items[game].contentDetails.upload.videoId
+            gameList.push({Title:gameTitle,url:gameUrl});
+        }
+    }
+    return gameList;
 }
 
 function listenForButtons()
@@ -66,7 +89,16 @@ function handleClick(event)
     }
     else if (event.target.textContent === 'Games')
     {
-        console.log("you are in the games tab")
+        const ulTag = document.getElementById("side-bar")
+        for (const game in gameList) 
+        {
+            let createLi = document.createElement("Li")
+            let createA = document.createElement("a")
+            createA.textContent = gameList[game].Title
+            createA.setAttribute("href",`${gameList[game].url}`)
+            createLi.appendChild(createA)
+            ulTag.appendChild(createLi)
+        }
     }
     else if (event.target.textContent === 'Movies')
     {
