@@ -3,13 +3,15 @@ const key = "&key=AIzaSyA169Pi-_WqugCQKdDQSpidq82hqf4ayYc";
 const url = "https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId="
 const songChannel = ["UC0C-w0YjGpqDXGB8IHb662A","UCANLZYMidaCbLQFWXBC95Jg"]//[Ed Sheeran(5),Taylor Swift(5)]
 const gamesChannel = ["UCfDT9kxAHL6M5Ssnbw02vZw","UCEe2aqK4fgDYTOjkZvTvang","UChhGJONwU_9ODfq5oy1dUaQ"] //[KCH Games TV,KingJoe83,HowAboutBeirut(Prank)]
+const moviesChannel = ["UCkAGrHCLFmlK3H2kd6isipg","UC7p3ER4LwElVAtmgWFdwhgQ"] //[Mr Bean,Monsters Inc Full Movie in English - New Animation Movie]
 let songList = [];
 let gameList = [];
+let movieList = [];
 
 document.addEventListener("DOMContentLoaded", function(){
     // songChannel.forEach(channel => { fetchSong(channel) })
-    gamesChannel.forEach(channel => { fetchGames(channel) })
-
+    // gamesChannel.forEach(channel => { fetchGames(channel) })
+    moviesChannel.forEach(channel => {fetchMovies(channel)})
     listenForButtons();
 })
 
@@ -17,9 +19,7 @@ function fetchSong(channelId)
 {
     fetch(url+channelId+key) 
     .then(resp => resp.json())
-    .then(data => {
-        listOfSongs(data)
-})
+    .then(data => { listOfSongs(data) })
 }
 
 function listOfSongs(data)
@@ -39,9 +39,7 @@ function fetchGames(channelId)
 {
     fetch(url+channelId+key) 
     .then(resp => resp.json())
-    .then(data => {
-        listOfGames(data)
-})
+    .then(data => { listOfGames(data) })
 }
 
 function listOfGames(data)
@@ -55,6 +53,26 @@ function listOfGames(data)
         }
     }
     return gameList;
+}
+
+function fetchMovies(channelId)
+{
+    fetch(url+channelId+key) 
+    .then(resp => resp.json())
+    .then(data => { listOfMovies(data) })
+}
+
+function listOfMovies(data)
+{
+    for (let movie in data.items) 
+    {   if (data.items[movie].contentDetails.upload)
+        {   
+            let movieTitle = data.items[movie].snippet.title
+            let movieUrl = "https://www.youtube.com/watch?v="+data.items[movie].contentDetails.upload.videoId
+            movieList.push({Title:movieTitle,url:movieUrl});
+        }
+    }
+    return movieList;
 }
 
 function listenForButtons()
@@ -102,7 +120,16 @@ function handleClick(event)
     }
     else if (event.target.textContent === 'Movies')
     {
-        console.log("you are in the movies tab")
+        const ulTag = document.getElementById("side-bar")
+        for (const movie in movieList) 
+        {
+            let createLi = document.createElement("Li")
+            let createA = document.createElement("a")
+            createA.textContent = movieList[movie].Title
+            createA.setAttribute("href",`${movieList[movie].url}`)
+            createLi.appendChild(createA)
+            ulTag.appendChild(createLi)
+        }
     }
     else if (event.target.textContent === 'My Profile')
     {
