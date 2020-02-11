@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function(){
    
 //    songChannel.forEach(channel => { fetchSong(channel) })
     
-    songChannel.forEach(channel => { fetchSong(channel) })
+   // songChannel.forEach(channel => { fetchSong(channel) })
     // gamesChannel.forEach(channel => { fetchGames(channel) })
     // moviesChannel.forEach(channel => {fetchMovies(channel)})
     // sportsChannel.forEach(channel => {fetchSport(channel)})
@@ -194,8 +194,8 @@ function showSongInfo() {
         
         const songInfo = `
         
-        <div class="songtitle">
-        <h1 class="songtitle">${songList[parseInt(event.target.id)].Title}</h1>
+        <div class="infotitle">
+        <h1 class="infotitle">${songList[parseInt(event.target.id)].Title}</h1>
         </div>
 
         <br>
@@ -265,8 +265,9 @@ function showElementInfo(list) {
         //debugger
         // <h3 class="titleinfo">${list[parseInt(event.target.id)].Title}</h3>
         const eleInfo = `
-        <div id="container">
-        <p><a href="">${list[parseInt(event.target.id)].Title}</a></p>
+
+        <div class="infotitle">
+        <h1 class="infotitle">${list[parseInt(event.target.id)].Title}</h1>
         </div>
         <br>
         <a href="${list[event.target.id].url}">${list[parseInt(event.target.id)].url}</a>
@@ -276,11 +277,11 @@ function showElementInfo(list) {
         <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
         <br>
         <br>
-      <div class="btn-group">
-          <button>Like +</button>
-          <p id="numoflikes">0 Likes</p>
-          <button>Dislike -</button>
-        </div>
+        <div class="btn-group">
+        <button class="buttons">Like +</button>
+        <p id="liketext"> 0 Likes </p>
+        <button class="buttons">Dislike -</button>
+      </div>
         `
 
         info.innerHTML += eleInfo
