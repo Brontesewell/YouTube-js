@@ -14,8 +14,9 @@ document.addEventListener("DOMContentLoaded", function(){
     // songChannel.forEach(channel => { fetchSong(channel) })
     // gamesChannel.forEach(channel => { fetchGames(channel) })
     // moviesChannel.forEach(channel => {fetchMovies(channel)})
-    sportsChannel.forEach(channel => {fetchSport(channel)})
+    // sportsChannel.forEach(channel => {fetchSport(channel)})
     listenForButtons();
+    listenToWatchLater();
 })
 
 function fetchSong(channelId) 
@@ -122,16 +123,7 @@ function handleClick(event)
     }
     else if (event.target.textContent === 'Sport')
     {
-        const ulTag = document.getElementById("side-bar")
-        for (const sport in sportList) 
-        {
-            let createLi = document.createElement("Li")
-            let createA = document.createElement("a")
-            createA.textContent = sportList[sport].Title
-            createA.setAttribute("href",`${sportList[sport].url}`)
-            createLi.appendChild(createA)
-            ulTag.appendChild(createLi)
-        }
+        renderElements(sportList)
     }
     else if (event.target.textContent === 'News')
     {
@@ -139,32 +131,33 @@ function handleClick(event)
     }
     else if (event.target.textContent === 'Games')
     {
-        const ulTag = document.getElementById("side-bar")
-        for (const game in gameList) 
-        {
-            let createLi = document.createElement("Li")
-            let createA = document.createElement("a")
-            createA.textContent = gameList[game].Title
-            createA.setAttribute("href",`${gameList[game].url}`)
-            createLi.appendChild(createA)
-            ulTag.appendChild(createLi)
-        }
+        renderElements(gameList)
     }
     else if (event.target.textContent === 'Movies')
     {
-        const ulTag = document.getElementById("side-bar")
-        for (const movie in movieList) 
-        {
-            let createLi = document.createElement("Li")
-            let createA = document.createElement("a")
-            createA.textContent = movieList[movie].Title
-            createA.setAttribute("href",`${movieList[movie].url}`)
-            createLi.appendChild(createA)
-            ulTag.appendChild(createLi)
-        }
+        renderElements(movieList)
     }
     else if (event.target.textContent === 'My Profile')
     {
         document.getElementById("dog-info").style.display = "none"
     }
+}
+
+function renderElements(list)
+{
+    const ulTag = document.getElementById("side-bar")
+    for (const item in list) 
+    {
+        let createLi = document.createElement("Li")
+        let createA = document.createElement("a")
+        createA.textContent = list[item].Title
+        createA.setAttribute("href",`${list[item].url}`)
+        createLi.appendChild(createA)
+        ulTag.appendChild(createLi)
+    } 
+}
+
+function listenToWatchLater()
+{
+
 }
