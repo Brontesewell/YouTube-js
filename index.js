@@ -10,21 +10,32 @@ let gameList = [];
 let movieList = [];
 let sportList = [];
 
+
 document.addEventListener("DOMContentLoaded", function(){
-    songChannel.forEach(channel => { fetchSong(channel) })
+   
+   songChannel.forEach(channel => { fetchSong(channel) })
+    
+    //songChannel.forEach(channel => { fetchSong(channel) })
     // gamesChannel.forEach(channel => { fetchGames(channel) })
     // moviesChannel.forEach(channel => {fetchMovies(channel)})
     // sportsChannel.forEach(channel => {fetchSport(channel)})
-    listenForButtons();
+
+    // listenForButtons();
+    // listenToWatchLater();  //Call the watch later
     // toogleWatchLater()
-    // listenToWatchLater();
+
+    setTimeout(function(){ listenToWatchLater(); }, 5000);
+    
 })
 
 function fetchSong(channelId) 
 {
     fetch(url+channelId+key) 
     .then(resp => resp.json())
-    .then(data => { listOfSongs(data) })
+    .then(data => { 
+        listOfSongs(data)
+        // listenToWatchLater();  //Call the watch later
+ })
 }
 
 function listOfSongs(data)
@@ -113,6 +124,7 @@ function handleClick(event)
         if (event.target.textContent === 'Songs')
         {
             const ulTag = document.getElementById("side-bar")
+            ulTag.innerHTML = ""
            let i = 0
             for (const song in songList) 
             {
@@ -207,7 +219,7 @@ function renderElements(list)
 
 function listenToWatchLater()
 {
-    let button = document.querySelectorAll(".btn")[6]
+    let button = document.getElementById("watchlater")
     button.addEventListener("click",addToWatchlater)
 }
 
