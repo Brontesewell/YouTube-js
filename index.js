@@ -11,13 +11,13 @@ let movieList = [];
 let sportList = [];
 
 document.addEventListener("DOMContentLoaded", function(){
-    // songChannel.forEach(channel => { fetchSong(channel) })
+    songChannel.forEach(channel => { fetchSong(channel) })
     // gamesChannel.forEach(channel => { fetchGames(channel) })
     // moviesChannel.forEach(channel => {fetchMovies(channel)})
     // sportsChannel.forEach(channel => {fetchSport(channel)})
     listenForButtons();
-    toogleWatchLater()
-    listenToWatchLater();
+    // toogleWatchLater()
+    // listenToWatchLater();
 })
 
 function fetchSong(channelId) 
@@ -127,11 +127,11 @@ function handleClick(event)
                 ulTag.appendChild(createLi)
             }
             
-                //  ulTag.addEventListener("click", function(event) {
-                //     debugger
-                //     const infoDiv = document.getElementById("dog-info")
+                 ulTag.addEventListener("click", function(event) {
+                    debugger
+                    const infoDiv = document.getElementById("dog-info")
 
-                //  })
+                 })
                 
                 
                 
@@ -189,10 +189,11 @@ function showInfo() {
         `
         info.innerHTML += songInfo
 
-    })
+    })}
 function renderElements(list)
 {
     const ulTag = document.getElementById("side-bar")
+    ulTag.innerHTML = ""
     for (const item in list) 
     {
         let createLi = document.createElement("Li")
@@ -213,4 +214,5 @@ function listenToWatchLater()
 function addToWatchlater()
 {
    /*extract the url,user  , id and pass*/
+   console.log("hello")
 }
