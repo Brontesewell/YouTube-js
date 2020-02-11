@@ -159,5 +159,11 @@ function renderElements(list)
 
 function listenToWatchLater()
 {
+    let button = document.querySelectorAll(".btn")[6]
+    button.addEventListener("click",addToWatchlater)
+}
 
+function addToWatchlater()
+{
+   /*extract the url,user id and pass*/
 }
