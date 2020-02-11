@@ -142,7 +142,7 @@ function handleClick(event)
             }
             
                  ulTag.addEventListener("click", function(event) {
-                    debugger
+                
                     const infoDiv = document.getElementById("dog-info")
 
                  })
