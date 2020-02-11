@@ -1,5 +1,5 @@
-// const key = "&key=AIzaSyClWK6raBj4KMLWAwnX8KDT-EXU0HgdoRQ";
-const key = "&key=AIzaSyA169Pi-_WqugCQKdDQSpidq82hqf4ayYc";
+// const key = "&key=AIzaSyBBOB0l7zOAj19hkgjw5Oub4sw4r0HaEMg";
+const key = "&key=AIzaSyBBOB0l7zOAj19hkgjw5Oub4sw4r0HaEMg";
 const url = "https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId="
 const songChannel = ["UC0C-w0YjGpqDXGB8IHb662A","UCANLZYMidaCbLQFWXBC95Jg"]//[Ed Sheeran(5),Taylor Swift(5)]
 const gamesChannel = ["UCfDT9kxAHL6M5Ssnbw02vZw","UCEe2aqK4fgDYTOjkZvTvang","UChhGJONwU_9ODfq5oy1dUaQ"] //[KCH Games TV,KingJoe83,HowAboutBeirut(Prank)]
@@ -13,12 +13,12 @@ let sportList = [];
 
 document.addEventListener("DOMContentLoaded", function(){
    
-//    songChannel.forEach(channel => { fetchSong(channel) })
+   songChannel.forEach(channel => { fetchSong(channel) })
     
-    songChannel.forEach(channel => { fetchSong(channel) })
-    gamesChannel.forEach(channel => { fetchGames(channel) })
-    moviesChannel.forEach(channel => {fetchMovies(channel)})
-    sportsChannel.forEach(channel => {fetchSport(channel)})
+    // songChannel.forEach(channel => { fetchSong(channel) })
+    // gamesChannel.forEach(channel => { fetchGames(channel) })
+    // moviesChannel.forEach(channel => {fetchMovies(channel)})
+    // sportsChannel.forEach(channel => {fetchSport(channel)})
 
     listenForButtons();
     // listenToWatchLater();  //Call the watch later
@@ -34,6 +34,7 @@ function fetchSong(channelId)
         listOfSongs(data)
         // listenToWatchLater();  //Call the watch later
  })
+ .catch(error => console.log(error.json()))
 }
 
 function listOfSongs(data)
@@ -101,12 +102,9 @@ function listOfSports(data)
     for (let sport in data.items) 
     {   if (data.items[sport].contentDetails.upload)
         {   
-            
             let sportTitle = data.items[sport].snippet.title
             let sportUrl = "https://www.youtube.com/watch?v="+data.items[sport].contentDetails.upload.videoId
             sportList.push({Title:sportTitle, url:sportUrl});
-           
-
         }
     }
     return sportList;
@@ -119,37 +117,28 @@ function listenForButtons()
 
 function handleClick(event)
 {
-    
     document.getElementById("dog-info").style.display = "block"
-
-    
-        if (event.target.textContent === 'Songs')
+    if (event.target.textContent === 'Songs')
+    {
+        const ulTag = document.getElementById("side-bar")
+        ulTag.innerHTML = ""
+        let i = 0
+        for (const song in songList) 
         {
-            const ulTag = document.getElementById("side-bar")
-            ulTag.innerHTML = ""
-           let i = 0
-            for (const song in songList) 
-            {
-                let createLi = document.createElement("Li")
-                let createA = document.createElement("a")
-                createA.textContent = songList[song].Title.split("(")[0]
-                // createA.setAttribute("href",`${songList[song].url}`)
-                createA.setAttribute('id', `${i++}`)
-                createA.setAttribute('onclick','showSongInfo()')
-                createA.onclick = function() {showSongInfo();};
-                createLi.appendChild(createA)
-                ulTag.appendChild(createLi)
-            }
-            
-                 ulTag.addEventListener("click", function(event) {
-                
-                    const infoDiv = document.getElementById("dog-info")
-
-                 })
-                
-                
-                
-            }
+            let createLi = document.createElement("Li")
+            let createA = document.createElement("a")
+            createA.textContent = songList[song].Title.split("(")[0]
+            createA.setAttribute('id', `${i++}`)
+            createA.setAttribute('onclick','showSongInfo()')
+            createA.onclick = function() {showSongInfo();};
+            createLi.appendChild(createA)
+            ulTag.appendChild(createLi)
+        }
+        ulTag.addEventListener("click", function(event)
+        {
+        const infoDiv = document.getElementById("dog-info")
+        })
+    }
     else if (event.target.textContent === 'Sport')
     {
         renderElements(sportList)
@@ -172,42 +161,35 @@ function handleClick(event)
     }
 }
 
-
-
-function showSongInfo() {
+function showSongInfo() 
+{
     const dogContainer = document.getElementById("sidebar")
-    dogContainer.addEventListener("click", function(event) {
-        
+    dogContainer.addEventListener("click", function(event)
+    {
         const info = document.getElementById("dog-info")
-        
-     
         const pTag = document.createElement("p")
         pTag.textContent = songList[parseInt(event.target.id)].Title
-        
         info.innerHTML = ""
-        
         const songInfo = `
         <h3>${songList[parseInt(event.target.id)].Title}</h3>
         <br>
         <a href="${songList[event.target.id].url}">${songList[parseInt(event.target.id)].url}</a>
         <br>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${songList[0].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${songList[parseInt(event.target.id)].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <br>
         <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
         <br>
         <br>
-      <div class="btn-group">
+        <div class="btn-group">
           <button>Like +</button>
           <p id="numoflikes">0 Likes</p>
           <button>Dislike -</button>
         </div>
         `
-
         info.innerHTML += songInfo
-
+        listenToWatchLater();
     })
 }
-
 
 function renderElements(list)
 {
@@ -216,12 +198,10 @@ function renderElements(list)
     let i = 0
     for (const item in list) 
     {
-        //debugger
         let createLi = document.createElement("Li")
         let createA = document.createElement("a")
         createA.textContent = list[item].Title
         createA.setAttribute('id', `${i++}`)
-        // createA.setAttribute("href",`${list[item].url}`)
         createA.setAttribute('onclick','showElementInfo(list)')
         createA.onclick = function() {showElementInfo(list);};
         createLi.appendChild(createA)
@@ -229,48 +209,58 @@ function renderElements(list)
     } 
 }
 
-
 function showElementInfo(list) {
     const dogContainer = document.getElementById("sidebar")
-    dogContainer.addEventListener("click", function(event) {
-        
+    dogContainer.addEventListener("click", function(event)
+    {
         const info = document.getElementById("dog-info")
-        
         const pTag = document.createElement("p")
         pTag.textContent = list[event.target.id].Title
         info.innerHTML = ""
-        //debugger
         const eleInfo = `
         <h3>${list[parseInt(event.target.id)].Title}</h3>
         <br>
         <a href="${list[event.target.id].url}">${list[parseInt(event.target.id)].url}</a>
         <br>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${list[0].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${list[event.target.id].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <br>
         <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
         <br>
         <br>
-      <div class="btn-group">
+        <div class="btn-group">
           <button>Like +</button>
           <p id="numoflikes">0 Likes</p>
           <button>Dislike -</button>
         </div>
         `
-
         info.innerHTML += eleInfo
-
     })
 }
 
 
-// function listenToWatchLater()
-// {
-//     let button = document.querySelectorAll(".btn")[6]
-//     button.addEventListener("click",addToWatchlater)
-// }
+function listenToWatchLater()
+{
+    let button = document.querySelectorAll(".btn")[6]
+    button.addEventListener("click",addToWatchlater)
+}
 
-// // function addToWatchlater()
-// // {
-// //    /*extract the url,user  , id and pass*/
-// // 
+function addToWatchlater()
+{
+   /*extract the url,userid and pass*/
+    var url = event.target.previousElementSibling.previousElementSibling.src // (in string)
+    var userId = 5;
+    debugger
+    // fetch(`http://localhost:3000/users/`,{
 
+    fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
+        method:"POST",
+        mode: 'no-cors',
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({url:url,user_id:userId})
+
+        // body:JSON.stringify({username:"ABCDE"})
+    })
+    // .then(resp => resp.json())
+    .then(result => console.log(result))
+    .catch(error => console.log(error))
+}
