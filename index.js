@@ -13,18 +13,16 @@ let sportList = [];
 
 document.addEventListener("DOMContentLoaded", function(){
    
-   songChannel.forEach(channel => { fetchSong(channel) })
+//    songChannel.forEach(channel => { fetchSong(channel) })
     
-    //songChannel.forEach(channel => { fetchSong(channel) })
-    // gamesChannel.forEach(channel => { fetchGames(channel) })
-    // moviesChannel.forEach(channel => {fetchMovies(channel)})
-    // sportsChannel.forEach(channel => {fetchSport(channel)})
+    songChannel.forEach(channel => { fetchSong(channel) })
+    gamesChannel.forEach(channel => { fetchGames(channel) })
+    moviesChannel.forEach(channel => {fetchMovies(channel)})
+    sportsChannel.forEach(channel => {fetchSport(channel)})
 
-    // listenForButtons();
+    listenForButtons();
     // listenToWatchLater();  //Call the watch later
     // toogleWatchLater()
-
-    setTimeout(function(){ listenToWatchLater(); }, 5000);
     
 })
 
