@@ -1,5 +1,5 @@
 // const key = "&key=AIzaSyClWK6raBj4KMLWAwnX8KDT-EXU0HgdoRQ";
-const key = "&key=AIzaSyA169Pi-_WqugCQKdDQSpidq82hqf4ayYc";
+const key = "&key=AIzaSyBBOB0l7zOAj19hkgjw5Oub4sw4r0HaEMg";
 const url = "https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId="
 const songChannel = ["UC0C-w0YjGpqDXGB8IHb662A","UCANLZYMidaCbLQFWXBC95Jg"]//[Ed Sheeran(5),Taylor Swift(5)]
 const gamesChannel = ["UCfDT9kxAHL6M5Ssnbw02vZw","UCEe2aqK4fgDYTOjkZvTvang","UChhGJONwU_9ODfq5oy1dUaQ"] //[KCH Games TV,KingJoe83,HowAboutBeirut(Prank)]
@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function(){
 //    songChannel.forEach(channel => { fetchSong(channel) })
     
     songChannel.forEach(channel => { fetchSong(channel) })
-    gamesChannel.forEach(channel => { fetchGames(channel) })
-    moviesChannel.forEach(channel => {fetchMovies(channel)})
-    sportsChannel.forEach(channel => {fetchSport(channel)})
+    // gamesChannel.forEach(channel => { fetchGames(channel) })
+    // moviesChannel.forEach(channel => {fetchMovies(channel)})
+    // sportsChannel.forEach(channel => {fetchSport(channel)})
 
     listenForButtons();
     // listenToWatchLater();  //Call the watch later
@@ -125,12 +125,14 @@ function handleClick(event)
     
         if (event.target.textContent === 'Songs')
         {
+            renderHomePage(songList)
             const ulTag = document.getElementById("side-bar")
             ulTag.innerHTML = ""
            let i = 0
             for (const song in songList) 
             {
                 let createLi = document.createElement("Li")
+                createLi.setAttribute("class", "item-list")
                 let createA = document.createElement("a")
                 createA.textContent = songList[song].Title.split("(")[0]
                 // createA.setAttribute("href",`${songList[song].url}`)
@@ -141,17 +143,18 @@ function handleClick(event)
                 ulTag.appendChild(createLi)
             }
             
-                 ulTag.addEventListener("click", function(event) {
+                //  ulTag.addEventListener("click", function(event) {
                 
-                    const infoDiv = document.getElementById("dog-info")
+                //     const infoDiv = document.getElementById("dog-info")
 
-                 })
+                //  })
                 
                 
                 
             }
     else if (event.target.textContent === 'Sport')
     {
+        renderHomePage(sportList)
         renderElements(sportList)
     }
     else if (event.target.textContent === 'News')
@@ -160,10 +163,12 @@ function handleClick(event)
     }
     else if (event.target.textContent === 'Games')
     {
+        renderHomePage(gameList)
         renderElements(gameList)
     }
     else if (event.target.textContent === 'Movies')
     {
+        renderHomePage(movieList)
         renderElements(movieList)
     }
     else if (event.target.textContent === 'My Profile')
@@ -177,7 +182,7 @@ function handleClick(event)
 function showSongInfo() {
     const dogContainer = document.getElementById("sidebar")
     dogContainer.addEventListener("click", function(event) {
-        
+
         const info = document.getElementById("dog-info")
         
      
@@ -185,27 +190,44 @@ function showSongInfo() {
         pTag.textContent = songList[parseInt(event.target.id)].Title
         
         info.innerHTML = ""
+        // <h3 class="titleinfo">${songList[parseInt(event.target.id)].Title}</h3>
         
         const songInfo = `
-        <h3>${songList[parseInt(event.target.id)].Title}</h3>
+        
+        <div class="songtitle">
+        <h1 class="songtitle">${songList[parseInt(event.target.id)].Title}</h1>
+        </div>
+
         <br>
         <a href="${songList[event.target.id].url}">${songList[parseInt(event.target.id)].url}</a>
         <br>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${songList[0].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${songList[parseInt(event.target.id)].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <br>
         <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
         <br>
         <br>
       <div class="btn-group">
-          <button>Like +</button>
-          <p id="numoflikes">0 Likes</p>
-          <button>Dislike -</button>
+          <button class="buttons">Like +</button>
+          <p id="liketext"> 0 Likes </p>
+          <button class="buttons">Dislike -</button>
         </div>
         `
 
         info.innerHTML += songInfo
-
+        switchColors()
     })
+}
+
+function switchColors() {
+   
+   
+      
+    // Array.from(document.getElementById("side-bar").children)[0].style.color = "red"
+        // const links = Array.from(document.getElementById("side-bar").children)
+        // for (var i = 0 ; i < links.length ; i ++)  {
+        // links.item(i).style.color = 'black' ;  
+        // element.style.color='orange' ;  
+        // } 
 }
 
 
@@ -217,6 +239,7 @@ function renderElements(list)
     for (const item in list) 
     {
         //debugger
+
         let createLi = document.createElement("Li")
         let createA = document.createElement("a")
         createA.textContent = list[item].Title
@@ -240,12 +263,15 @@ function showElementInfo(list) {
         pTag.textContent = list[event.target.id].Title
         info.innerHTML = ""
         //debugger
+        // <h3 class="titleinfo">${list[parseInt(event.target.id)].Title}</h3>
         const eleInfo = `
-        <h3>${list[parseInt(event.target.id)].Title}</h3>
+        <div id="container">
+        <p><a href="">${list[parseInt(event.target.id)].Title}</a></p>
+        </div>
         <br>
         <a href="${list[event.target.id].url}">${list[parseInt(event.target.id)].url}</a>
         <br>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${list[0].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${list[event.target.id].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <br>
         <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
         <br>
@@ -274,3 +300,26 @@ function showElementInfo(list) {
 // //    /*extract the url,user  , id and pass*/
 // // 
 
+function renderHomePage(list) {
+    const info = document.getElementById("dog-info")
+    info.innerHTML = ""
+//<h1 class="topchoices">Top Choices</h1>
+   
+    const title = `<div id="container">
+    <p><a href="">Top Choices</a></p>
+    </div>`
+    info.innerHTML += title
+
+
+    list.forEach(type => { 
+    
+  // debugger
+  const homepage = `
+    <div class="box">
+    <iframe width="350" height="195" src="https://www.youtube-nocookie.com/embed/${type.url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    `
+
+    info.innerHTML += homepage
+})
+}
