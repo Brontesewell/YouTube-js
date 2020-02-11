@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function(){
     songChannel.forEach(channel => { fetchData(channel) })
     console.log(songList)
     listenForButtons();
+    toogleWatchLater()
 })
 
 function fetchData(channelId) 
@@ -43,9 +44,9 @@ function toogleWatchLater() {
          if (event.target.tagName === "BUTTON") {
              if (event.target.textContent == "Watch Later"){
                  event.target.textContent = "Saved"
+                 debugger
              } else {
                 event.target.textContent = "Watch Later"
-          
              }
          }
         })
@@ -60,20 +61,34 @@ function listenForButtons()
 function handleClick(event)
 {
     document.getElementById("dog-info").style.display = "block"
-    if (event.target.textContent === 'Songs')
-    {
-        const ulTag = document.getElementById("side-bar")
-        for (const song in songList) 
-        {
-            let createLi = document.createElement("Li")
-            let createA = document.createElement("a")
-            createA.textContent = songList[song].Title.split("(")[0]
-            createA.setAttribute("href",`${songList[song].url}`)
-            createLi.appendChild(createA)
-            ulTag.appendChild(createLi)
-        }
 
-    }
+    
+        if (event.target.textContent === 'Songs')
+        {
+            const ulTag = document.getElementById("side-bar")
+           let i = 0
+            for (const song in songList) 
+            {
+                let createLi = document.createElement("Li")
+                let createA = document.createElement("a")
+                createA.textContent = songList[song].Title.split("(")[0]
+                // createA.setAttribute("href",`${songList[song].url}`)
+                createA.setAttribute('id', `${i++}`)
+                createA.setAttribute('onclick','showInfo()')
+                createA.onclick = function() {showInfo();};
+                createLi.appendChild(createA)
+                ulTag.appendChild(createLi)
+            }
+            
+                //  ulTag.addEventListener("click", function(event) {
+                //     debugger
+                //     const infoDiv = document.getElementById("dog-info")
+
+                //  })
+                
+                
+                
+            }
     else if (event.target.textContent === 'Sport')
     {
         console.log(" you are in the sports tab")
@@ -94,4 +109,38 @@ function handleClick(event)
     {
         document.getElementById("dog-info").style.display = "none"
     }
+}
+
+
+
+function showInfo() {
+    const dogContainer = document.getElementById("sidebar")
+    dogContainer.addEventListener("click", function(event) {
+        
+        const info = document.getElementById("dog-info")
+        
+     
+        const pTag = document.createElement("p")
+        pTag.textContent = songList[parseInt(event.target.id)].Title
+        
+        info.innerHTML = ""
+
+        const songInfo = `
+        <h3>${songList[parseInt(event.target.id)].Title}</h3>
+        <br>
+        <a href="${songList[event.target.id].url}">${songList[parseInt(event.target.id)].url}</a>
+        <br>
+        <br>
+        <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
+        <br>
+        <br>
+      <div class="btn-group">
+          <button>Like +</button>
+          <p id="numoflikes">0 Likes</p>
+          <button>Dislike -</button>
+        </div>
+        `
+        info.innerHTML += songInfo
+
+    })
 }
