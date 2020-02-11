@@ -10,7 +10,9 @@ let gameList = [];
 let movieList = [];
 let sportList = [];
 
+
 document.addEventListener("DOMContentLoaded", function(){
+<<<<<<< HEAD
     songChannel.forEach(channel => { fetchSong(channel) })
     gamesChannel.forEach(channel => { fetchGames(channel) })
     moviesChannel.forEach(channel => {fetchMovies(channel)})
@@ -18,13 +20,32 @@ document.addEventListener("DOMContentLoaded", function(){
     listenForButtons();
     // toogleWatchLater()
     // listenToWatchLater();
+=======
+   
+   songChannel.forEach(channel => { fetchSong(channel) })
+    
+    //songChannel.forEach(channel => { fetchSong(channel) })
+    // gamesChannel.forEach(channel => { fetchGames(channel) })
+    // moviesChannel.forEach(channel => {fetchMovies(channel)})
+    // sportsChannel.forEach(channel => {fetchSport(channel)})
+
+    // listenForButtons();
+    // listenToWatchLater();  //Call the watch later
+    // toogleWatchLater()
+
+    setTimeout(function(){ listenToWatchLater(); }, 5000);
+    
+>>>>>>> 596a5aa3e0f977af9b283a952784a2d905056cd7
 })
 
 function fetchSong(channelId) 
 {
     fetch(url+channelId+key) 
     .then(resp => resp.json())
-    .then(data => { listOfSongs(data) })
+    .then(data => { 
+        listOfSongs(data)
+        // listenToWatchLater();  //Call the watch later
+ })
 }
 
 function listOfSongs(data)
@@ -118,7 +139,11 @@ function handleClick(event)
         {
             const ulTag = document.getElementById("side-bar")
             ulTag.innerHTML = ""
+<<<<<<< HEAD
             let i = 0
+=======
+           let i = 0
+>>>>>>> 596a5aa3e0f977af9b283a952784a2d905056cd7
             for (const song in songList) 
             {
                 let createLi = document.createElement("Li")
@@ -132,7 +157,15 @@ function handleClick(event)
                 ulTag.appendChild(createLi)
             }
             
+<<<<<<< HEAD
                
+=======
+                 ulTag.addEventListener("click", function(event) {
+                    debugger
+                    const infoDiv = document.getElementById("dog-info")
+
+                 })
+>>>>>>> 596a5aa3e0f977af9b283a952784a2d905056cd7
                 
                 
                 
@@ -260,3 +293,4 @@ function showElementInfo(list) {
 // // {
 // //    /*extract the url,user  , id and pass*/
 // // 
+
