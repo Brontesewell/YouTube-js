@@ -205,6 +205,7 @@ function renderElements(list)
     } 
 }
 
+
 function showElementInfo(list) {
     const dogContainer = document.getElementById("sidebar")
     dogContainer.addEventListener("click", function(event)
