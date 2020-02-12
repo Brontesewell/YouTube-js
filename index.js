@@ -125,9 +125,16 @@ function handleClick(event)
         {
             switchButtonColors()
             renderHomePage(songList)
+            
             const ulTag = document.getElementById("side-bar")
+            const barTag = document.getElementById("sidebar")
+            barTag.style.display = "block"
             ulTag.innerHTML = ""
            let i = 0
+           const iframe = `
+               <iframe src="https://ntmaker.gfto.ru/newneontexten/?image_height=200&image_width=600&image_font_shadow_width=30&image_font_size=40&image_background_color=1D1919&image_text_color=F5A1FF&image_font_shadow_color=F7406B&image_url=&image_text=Click Title Below👇&image_font_family=Nickainley&" frameborder='no' scrolling='no' width="300" height="100"></iframe>         
+               `
+               ulTag.innerHTML += iframe
             for (const song in songList) 
             {
                 let createLi = document.createElement("Li")
@@ -175,7 +182,10 @@ function handleClick(event)
     }
     else if (event.target.textContent === 'My Profile')
     {
-        document.getElementById("dog-info").style.display = "none"
+        renderMyProfile()
+    }
+    else {
+        debugger
     }
 }
 
@@ -200,7 +210,7 @@ function showSongInfo() {
         <br>
         <a href="${songList[event.target.id].url}">${songList[parseInt(event.target.id)].url}</a>
         <br>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${songList[parseInt(event.target.id)].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/${songList[parseInt(event.target.id)].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <br>
         <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
         <br>
@@ -260,11 +270,11 @@ function switchTitleColors() {
             
             
         } else {
-            
-            arr[i].nextElementSibling.style.fontWeight = ""
-            arr[i].nextElementSibling.style.fontFamily = ""
-            arr[i].nextElementSibling.style.fontSize = ""
-            arr[i].nextElementSibling.style.color = ""
+            //debugger
+            // arr[i].nextElementSibling.style.fontWeight = ""
+            // arr[i].nextElementSibling.style.fontFamily = ""
+            // arr[i].nextElementSibling.style.fontSize = ""
+            // arr[i].nextElementSibling.style.color = ""
         }
     }
 
@@ -276,12 +286,17 @@ function switchTitleColors() {
 function renderElements(list)
 {
     const ulTag = document.getElementById("side-bar")
+    const barTag = document.getElementById("sidebar")
+     barTag.style.display = "block"
     ulTag.innerHTML = ""
     let i = 0
+    const iframe = `
+    <iframe src="https://ntmaker.gfto.ru/newneontexten/?image_height=200&image_width=600&image_font_shadow_width=30&image_font_size=40&image_background_color=1D1919&image_text_color=F5A1FF&image_font_shadow_color=F7406B&image_url=&image_text=Click Title Below👇&image_font_family=Nickainley&" frameborder='no' scrolling='no' width="300" height="100"></iframe>         
+    `
+    ulTag.innerHTML += iframe
     for (const item in list) 
     {
-        //debugger
-
+        
         let createLi = document.createElement("Li")
         let createA = document.createElement("a")
         createA.textContent = list[item].Title
@@ -313,7 +328,7 @@ function showElementInfo(list) {
         <br>
         <a href="${list[event.target.id].url}">${list[parseInt(event.target.id)].url}</a>
         <br>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${list[event.target.id].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/${list[event.target.id].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <br>
         <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
         <br>
@@ -330,6 +345,8 @@ function showElementInfo(list) {
         switchTitleColors()
     })   
 }
+
+
 
 function renderHomePage(list) {
     const info = document.getElementById("dog-info")
@@ -394,4 +411,18 @@ function fetchWatchLater()
     .then(data => { 
         allWatchLaters = data
  })
+}
+
+
+function renderMyProfile() {
+
+    const info = document.getElementById("dog-info")
+    const nav = document.getElementById("sidebar")
+     const user = document.createElement("h1")
+     user.innerHTML = "My Profile"
+     nav.style.display = "none"
+     info.innerHTML = ""
+    //  debugger
+
+     info.appendChild(user)
 }
