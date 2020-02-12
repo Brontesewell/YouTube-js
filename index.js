@@ -14,9 +14,9 @@ let allWatchLaters = [];
 document.addEventListener("DOMContentLoaded", function(){
    
     songChannel.forEach(channel => { fetchSong(channel) })
-    // gamesChannel.forEach(channel => { fetchGames(channel) })
-    // moviesChannel.forEach(channel => {fetchMovies(channel)})
-    // sportsChannel.forEach(channel => {fetchSport(channel)})
+    gamesChannel.forEach(channel => { fetchGames(channel) })
+    moviesChannel.forEach(channel => {fetchMovies(channel)})
+    sportsChannel.forEach(channel => {fetchSport(channel)})
 
     listenForButtons();
     fetchWatchLater();
