@@ -1,4 +1,5 @@
-
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${songList[parseInt(event.target.id)].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        
 
 Songs
 1. ED Sheeran Collection of five songs put in array -------> Channel id = "UC0C-w0YjGpqDXGB8IHb662A"
