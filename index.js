@@ -13,10 +13,10 @@ let allWatchLaters = [];
 
 document.addEventListener("DOMContentLoaded", function(){
    
-   songChannel.forEach(channel => { fetchSong(channel) })
-    // gamesChannel.forEach(channel => { fetchGames(channel) })
-    // moviesChannel.forEach(channel => {fetchMovies(channel)})
-    // sportsChannel.forEach(channel => {fetchSport(channel)})
+    songChannel.forEach(channel => { fetchSong(channel) })
+    gamesChannel.forEach(channel => { fetchGames(channel) })
+    moviesChannel.forEach(channel => {fetchMovies(channel)})
+    sportsChannel.forEach(channel => {fetchSport(channel)})
 
     listenForButtons();
     fetchWatchLater();
@@ -184,15 +184,14 @@ function showSongInfo() {
     dogContainer.addEventListener("click", function(event) {
         event.target.style.color = "white";
         const info = document.getElementById("dog-info")
-        
-        
         const pTag = document.createElement("p")
         pTag.textContent = songList[parseInt(event.target.id)].Title
         
         info.innerHTML = ""
         // <h3 class="titleinfo">${songList[parseInt(event.target.id)].Title}</h3>
-        
-        const songInfo = `
+        let videoSrc = `https://www.youtube-nocookie.com/embed/${songList[parseInt(event.target.id)].url.split("=")[1]}`
+        var songInfo2;
+        const songInfo1 = `
         <div class="infotitle">
         <h1 class="infotitle">${songList[parseInt(event.target.id)].Title}</h1>
         </div>
@@ -200,10 +199,27 @@ function showSongInfo() {
         <br>
         <a href="${songList[event.target.id].url}">${songList[parseInt(event.target.id)].url}</a>
         <br>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${songList[parseInt(event.target.id)].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <br>
-        <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
-        <br>
+        <iframe width="560" height="315" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <br>`
+        // Check with watch_later model
+        // debugger
+        songInfo2 =`<button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>`
+        if (allWatchLaters.length > 0)
+        {   
+            allWatchLaters.filter(element => 
+                {
+                    if ((element.user_id === 1) && (element.url == videoSrc) && (element.saved === true)) 
+                    { 
+                        songInfo2 =`<button type="button" id="watchlater" class="btn btn-dark">Video Saved</button>`
+                    }
+                })
+        }
+        else
+        {
+            songInfo2 =`<button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>`
+        }
+        
+        const songInfo3 = `<br>
         <br>
         <div class="btn-group">
         <button class="buttons">Like +</button>
@@ -211,19 +227,14 @@ function showSongInfo() {
         <button class="buttons">Dislike -</button>
         </div>
         `
-        
-        info.innerHTML += songInfo
+        info.innerHTML += songInfo1
+        info.innerHTML += songInfo2
+        info.innerHTML += songInfo3
         switchTitleColors()
-        
-
-        
         listenToWatchLater()
       
     })
-    // listenToWatchLater()
 }
-
-
 
 function switchTitleColors() {
    
@@ -235,7 +246,7 @@ function switchTitleColors() {
                     event.target.style.color = "#228DFF";
                     event.target.style.fontFamily = "Iceland"
                     event.target.style.fontSize = "30px"
-                     debugger
+                    //  debugger
                     
                 } else {
                     // arr[1].style.color = "pink";
@@ -251,27 +262,21 @@ function switchTitleColors() {
     const arr = Array.from(document.getElementsByTagName("BUTTON"))
     for (var i = 0 ; i < arr.length ; i ++)  {
       //  debugger
-
         if(event.target.id === arr[i].id) {
             event.target.style.fontWeight = "bold"
             event.target.style.color = "black";
             event.target.style.fontFamily = "Iceland"
             event.target.style.fontSize = "30px"
-            
-            
+
         } else {
-            
-            arr[i].nextElementSibling.style.fontWeight = ""
-            arr[i].nextElementSibling.style.fontFamily = ""
-            arr[i].nextElementSibling.style.fontSize = ""
-            arr[i].nextElementSibling.style.color = ""
+            // arr[i].nextElementSibling.style.fontWeight = ""
+            // arr[i].nextElementSibling.style.fontFamily = ""
+            // arr[i].nextElementSibling.style.fontSize = ""
+            // arr[i].nextElementSibling.style.color = ""
         }
     }
 
  }
-
-
-
 
 function renderElements(list)
 {
@@ -299,13 +304,14 @@ function showElementInfo(list) {
     dogContainer.addEventListener("click", function(event) {
         
         const info = document.getElementById("dog-info")
-        
+        var eleInfo2;
         const pTag = document.createElement("p")
         pTag.textContent = list[event.target.id].Title
         info.innerHTML = ""
         //debugger
         // <h3 class="titleinfo">${list[parseInt(event.target.id)].Title}</h3>
-        const eleInfo = `
+        let videoSrc = `https://www.youtube-nocookie.com/embed/${list[event.target.id].url.split("=")[1]}`
+        const eleInfo1 = `
 
         <div class="infotitle">
         <h1 class="infotitle">${list[parseInt(event.target.id)].Title}</h1>
@@ -313,10 +319,25 @@ function showElementInfo(list) {
         <br>
         <a href="${list[event.target.id].url}">${list[parseInt(event.target.id)].url}</a>
         <br>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${list[event.target.id].url.split("=")[1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <br>
-        <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
-        <br>
+        <iframe width="560" height="315" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <br>`
+        eleInfo2 =`<button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>`
+        if (allWatchLaters.length > 0)
+        {   
+            allWatchLaters.filter(element => 
+                {
+                    if ((element.user_id === 1) && (element.url == videoSrc) && (element.saved === true)) 
+                    { 
+                        eleInfo2 =`<button type="button" id="watchlater" class="btn btn-dark">Video Saved</button>`
+                    }
+                })
+        }
+        else
+        {
+            eleInfo2 =`<button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>`
+        }
+        
+        const eleInfo3 = `<br>
         <br>
         <div class="btn-group">
         <button class="buttons">Like +</button>
@@ -324,8 +345,9 @@ function showElementInfo(list) {
         <button class="buttons">Dislike -</button>
       </div>
         `
-
-        info.innerHTML += eleInfo
+        info.innerHTML += eleInfo1
+        info.innerHTML += eleInfo2
+        info.innerHTML += eleInfo3
         listenToWatchLater()
         switchTitleColors()
     })   
@@ -364,16 +386,19 @@ function listenToWatchLater()
 function addToWatchlater()
 {
    /*extract the url,userid and pass*/
-    var url = event.target.previousElementSibling.previousElementSibling.src // (in string)
-    var userId = 1;
-    fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
+   if (event.target.textContent === "Watch Later")
+   {    
+        var url = event.target.previousElementSibling.previousElementSibling.src // (in string)
+        var title = event.target.parentElement.firstElementChild.textContent
+        var userId = 1;
+        fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
         method:"POST",
         headers:{"Content-Type":"application/json","Accept":"application/json"},
         body:JSON.stringify({
-            watch_later: {url:url,user_id:userId,saved:"true"}
+            watch_later: {url:url,user_id:userId,saved:"true",title:title}
+            })
         })
-    })
-    .then(result => {
+        .then(result => {
         if (result.status === 204)
         {
             alert("Added to Watch later")
@@ -383,8 +408,13 @@ function addToWatchlater()
         {
             alert("Oh something happened"+result)
         }
-    })
-    .catch(error => console.log(error))
+        })
+        .catch(error => console.log(error))
+   }
+   else
+   {
+       alert("This video is already saved.")
+   }
 }
 
 function fetchWatchLater()
