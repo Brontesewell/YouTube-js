@@ -14,11 +14,9 @@ let allWatchLaters = [];
 document.addEventListener("DOMContentLoaded", function(){
    
    songChannel.forEach(channel => { fetchSong(channel) })
-    
-//    songChannel.forEach(channel => { fetchSong(channel) })
-//     gamesChannel.forEach(channel => { fetchGames(channel) })
-//     moviesChannel.forEach(channel => {fetchMovies(channel)})
-//     sportsChannel.forEach(channel => {fetchSport(channel)})
+    // gamesChannel.forEach(channel => { fetchGames(channel) })
+    // moviesChannel.forEach(channel => {fetchMovies(channel)})
+    // sportsChannel.forEach(channel => {fetchSport(channel)})
 
     listenForButtons();
     fetchWatchLater();
@@ -125,6 +123,7 @@ function handleClick(event)
     
         if (event.target.textContent === 'Songs')
         {
+            switchButtonColors()
             renderHomePage(songList)
             const ulTag = document.getElementById("side-bar")
             ulTag.innerHTML = ""
@@ -154,6 +153,7 @@ function handleClick(event)
             }
     else if (event.target.textContent === 'Sport')
     {
+        switchButtonColors()
         renderHomePage(sportList)
         renderElements(sportList)
     }
@@ -163,11 +163,13 @@ function handleClick(event)
     }
     else if (event.target.textContent === 'Games')
     {
+        switchButtonColors()
         renderHomePage(gameList)
         renderElements(gameList)
     }
     else if (event.target.textContent === 'Movies')
     {
+        switchButtonColors()
         renderHomePage(movieList)
         renderElements(movieList)
     }
@@ -180,10 +182,10 @@ function handleClick(event)
 function showSongInfo() {
     const dogContainer = document.getElementById("sidebar")
     dogContainer.addEventListener("click", function(event) {
-
+        event.target.style.color = "white";
         const info = document.getElementById("dog-info")
         
-     
+        
         const pTag = document.createElement("p")
         pTag.textContent = songList[parseInt(event.target.id)].Title
         
@@ -194,7 +196,7 @@ function showSongInfo() {
         <div class="infotitle">
         <h1 class="infotitle">${songList[parseInt(event.target.id)].Title}</h1>
         </div>
-
+        
         <br>
         <a href="${songList[event.target.id].url}">${songList[parseInt(event.target.id)].url}</a>
         <br>
@@ -203,31 +205,73 @@ function showSongInfo() {
         <button type="button" id="watchlater" class="btn btn-dark">Watch Later</button>
         <br>
         <br>
-      <div class="btn-group">
-          <button class="buttons">Like +</button>
-          <p id="liketext"> 0 Likes </p>
-          <button class="buttons">Dislike -</button>
+        <div class="btn-group">
+        <button class="buttons">Like +</button>
+        <p id="liketext"> 0 Likes </p>
+        <button class="buttons">Dislike -</button>
         </div>
         `
-
+        
         info.innerHTML += songInfo
+        switchTitleColors()
+        
+
+        
         listenToWatchLater()
-        switchColors()
+      
     })
     // listenToWatchLater()
 }
 
-function switchColors() {
+
+
+function switchTitleColors() {
    
-   
-      
-    // Array.from(document.getElementById("side-bar").children)[0].style.color = "red"
-        // const links = Array.from(document.getElementById("side-bar").children)
-        // for (var i = 0 ; i < links.length ; i ++)  {
-        // links.item(i).style.color = 'black' ;  
-        // element.style.color='orange' ;  
-        // } 
-}
+    const arr = Array.from(document.getElementById("side-bar").children)
+
+    for (var i = 0 ; i < arr.length ; i ++)  {
+        //debugger
+                if(event.target.id === arr[i].firstElementChild.id) {
+                    event.target.style.color = "#228DFF";
+                    event.target.style.fontFamily = "Iceland"
+                    event.target.style.fontSize = "30px"
+                     debugger
+                    
+                } else {
+                    // arr[1].style.color = "pink";
+                    arr[i].firstElementChild.style.color = ""
+                    arr[i].firstElementChild.style.fontFamily = ""
+                    arr[i].firstElementChild.style.fontSize = ""
+                }
+                
+      } 
+ }
+
+ function switchButtonColors() {
+    const arr = Array.from(document.getElementsByTagName("BUTTON"))
+    for (var i = 0 ; i < arr.length ; i ++)  {
+      //  debugger
+
+        if(event.target.id === arr[i].id) {
+            event.target.style.fontWeight = "bold"
+            event.target.style.color = "black";
+            event.target.style.fontFamily = "Iceland"
+            event.target.style.fontSize = "30px"
+            
+            
+        } else {
+            
+            arr[i].nextElementSibling.style.fontWeight = ""
+            arr[i].nextElementSibling.style.fontFamily = ""
+            arr[i].nextElementSibling.style.fontSize = ""
+            arr[i].nextElementSibling.style.color = ""
+        }
+    }
+
+ }
+
+
+
 
 function renderElements(list)
 {
@@ -283,6 +327,7 @@ function showElementInfo(list) {
 
         info.innerHTML += eleInfo
         listenToWatchLater()
+        switchTitleColors()
     })   
 }
 
