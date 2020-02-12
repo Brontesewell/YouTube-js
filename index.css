@@ -197,6 +197,20 @@ p a:hover {
     0.2vw 0vw 10vw #1041ff, 0.4vw 0vw 10vw #1041ff;
 }
 
+#HomepageTitle {
+  color: #28d7fe;
+  font-family: lasenter, Allura;
+  font-size: 4vw;
+  text-align: center;
+  text-shadow: 0.1vw 0vw 0.25vw #eb5732, 0.2vw 0vw 0.25vw #eb5732,
+    0.4vw 0vw 0.25vw #eb5732, 0.1vw 0vw 0.1vw #1f9c13, 0.2vw 0vw 0vw #1f9c13,
+    0.4vw 0vw 0vw #1f9c13, 0.1vw 0vw 0.1vw #1f9c13, 0.2vw 0vw 0.1vw #1f9c13,
+    0.4vw 0vw 0vw #1f9c13, 0.1vw 0vw 0.8vw #1f9c13, 0.2vw 0vw 0.8vw #1f9c13,
+    0.4vw 0vw 0.8vw #1f9c13, 0.2vw 0vw 0.5vw #1f9c13, 0.1vw 0vw 0.5vw #1f9c13,
+    0.2vw 0vw 0.5vw #1f9c13, 0.4vw 0vw 0.5vw #1f9c13, 0.1vw 0vw 10vw #1f9c13,
+    0.2vw 0vw 10vw #1f9c13, 0.4vw 0vw 10vw #1f9c13;
+}
+
 .titleinfo {
   color: #4280df;
   font-family: lasenter, Allura;

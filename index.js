@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(){
     gamesChannel.forEach(channel => { fetchGames(channel) })
     moviesChannel.forEach(channel => {fetchMovies(channel)})
     sportsChannel.forEach(channel => {fetchSport(channel)})
-
+    listenForEnter();
     listenForButtons();
     fetchWatchLater();
     // toogleWatchLater()
@@ -115,6 +115,16 @@ function listenForButtons()
     document.getElementById("dog-bar").addEventListener("click", handleClick)
 }
 
+function listenForEnter() {
+
+    const submit = document.getElementById("submitname")
+    const name = document.getElementById("nameform")
+    name.addEventListener("submit", function(event) {
+    event.preventDefault()
+    renderMyProfile()
+    })
+}
+
 function handleClick(event)
 {
     
@@ -148,12 +158,7 @@ function handleClick(event)
                 createLi.appendChild(createA)
                 ulTag.appendChild(createLi)
             }
-            
-                //  ulTag.addEventListener("click", function(event) {
-                
-                //     const infoDiv = document.getElementById("dog-info")
-
-                //  })
+           
                 
                 
                 
@@ -457,3 +462,6 @@ function renderMyProfile() {
 
      info.appendChild(user)
 }
+
+
+
