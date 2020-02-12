@@ -12,16 +12,13 @@ let sportList = [];
 
 
 document.addEventListener("DOMContentLoaded", function(){
-   
-   songChannel.forEach(channel => { fetchSong(channel) })
     
-    // songChannel.forEach(channel => { fetchSong(channel) })
-    // gamesChannel.forEach(channel => { fetchGames(channel) })
-    // moviesChannel.forEach(channel => {fetchMovies(channel)})
-    // sportsChannel.forEach(channel => {fetchSport(channel)})
+    songChannel.forEach(channel => { fetchSong(channel) })
+    gamesChannel.forEach(channel => { fetchGames(channel) })
+    moviesChannel.forEach(channel => {fetchMovies(channel)})
+    sportsChannel.forEach(channel => {fetchSport(channel)})
 
     listenForButtons();
-    // listenToWatchLater();  //Call the watch later
     // toogleWatchLater()
     
 })
@@ -234,7 +231,8 @@ function showElementInfo(list) {
         </div>
         `
         info.innerHTML += eleInfo
-    })
+        listenToWatchLater()
+    })   
 }
 
 
@@ -248,19 +246,24 @@ function addToWatchlater()
 {
    /*extract the url,userid and pass*/
     var url = event.target.previousElementSibling.previousElementSibling.src // (in string)
-    var userId = 5;
-    debugger
-    // fetch(`http://localhost:3000/users/`,{
+    var userId = 4;
 
     fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
         method:"POST",
-        mode: 'no-cors',
         headers:{"Content-Type":"application/json","Accept":"application/json"},
-        body:JSON.stringify({url:url,user_id:userId})
-
-        // body:JSON.stringify({username:"ABCDE"})
+        body:JSON.stringify({
+            watch_later: {url:url,user_id:userId}
+        })
     })
-    // .then(resp => resp.json())
-    .then(result => console.log(result))
+    .then(result => {
+        if (result.status === 204)
+        {
+            alert("Added to Watch later")
+        }
+        else
+        {
+            alert("Oh something happened"+result)
+        }
+    })
     .catch(error => console.log(error))
 }
