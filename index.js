@@ -8,18 +8,18 @@ let songList = [];
 let gameList = [];
 let movieList = [];
 let sportList = [];
+let allWatchLaters = [];
 
 
 document.addEventListener("DOMContentLoaded", function(){
    
-//    songChannel.forEach(channel => { fetchSong(channel) })
-    
    songChannel.forEach(channel => { fetchSong(channel) })
     // gamesChannel.forEach(channel => { fetchGames(channel) })
     // moviesChannel.forEach(channel => {fetchMovies(channel)})
     // sportsChannel.forEach(channel => {fetchSport(channel)})
 
     listenForButtons();
+    fetchWatchLater();
     // toogleWatchLater()
     
 })
@@ -179,8 +179,6 @@ function handleClick(event)
     }
 }
 
-
-
 function showSongInfo() {
     const dogContainer = document.getElementById("sidebar")
     dogContainer.addEventListener("click", function(event) {
@@ -195,7 +193,6 @@ function showSongInfo() {
         // <h3 class="titleinfo">${songList[parseInt(event.target.id)].Title}</h3>
         
         const songInfo = `
-        
         <div class="infotitle">
         <h1 class="infotitle">${songList[parseInt(event.target.id)].Title}</h1>
         </div>
@@ -220,7 +217,10 @@ function showSongInfo() {
         
 
         
+        listenToWatchLater()
+      
     })
+    // listenToWatchLater()
 }
 
 
@@ -273,7 +273,6 @@ function switchTitleColors() {
 
 
 
-
 function renderElements(list)
 {
     const ulTag = document.getElementById("side-bar")
@@ -294,7 +293,6 @@ function renderElements(list)
         ulTag.appendChild(createLi)
     } 
 }
-
 
 function showElementInfo(list) {
     const dogContainer = document.getElementById("sidebar")
@@ -333,15 +331,6 @@ function showElementInfo(list) {
     })   
 }
 
-
-function listenToWatchLater()
-{
-    let button = document.querySelectorAll(".btn")[6]
-    button.addEventListener("click",addToWatchlater)
-}
-
-
-
 function renderHomePage(list) {
     const info = document.getElementById("dog-info")
     info.innerHTML = ""
@@ -366,23 +355,29 @@ function renderHomePage(list) {
 })
 }
 
+function listenToWatchLater()
+{
+    let button = document.querySelectorAll(".btn")[6]
+        button.addEventListener("click",addToWatchlater)
+}
+
 function addToWatchlater()
 {
    /*extract the url,userid and pass*/
     var url = event.target.previousElementSibling.previousElementSibling.src // (in string)
-    var userId = 4;
-
+    var userId = 1;
     fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
         method:"POST",
         headers:{"Content-Type":"application/json","Accept":"application/json"},
         body:JSON.stringify({
-            watch_later: {url:url,user_id:userId}
+            watch_later: {url:url,user_id:userId,saved:"true"}
         })
     })
     .then(result => {
         if (result.status === 204)
         {
             alert("Added to Watch later")
+            document.querySelectorAll(".btn")[6].textContent = "Video Saved"
         }
         else
         {
@@ -390,4 +385,13 @@ function addToWatchlater()
         }
     })
     .catch(error => console.log(error))
+}
+
+function fetchWatchLater()
+{
+    fetch("http://localhost:3000/only_watch_laters") 
+    .then(resp => resp.json())
+    .then(data => { 
+        allWatchLaters = data
+ })
 }
