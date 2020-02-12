@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function(){
     listenForEnter();
     listenForButtons();
     fetchWatchLater();
-    // toogleWatchLater()
     
 })
 
@@ -99,12 +98,9 @@ function listOfSports(data)
     for (let sport in data.items) 
     {   if (data.items[sport].contentDetails.upload)
         {   
-            
             let sportTitle = data.items[sport].snippet.title
             let sportUrl = "https://www.youtube.com/watch?v="+data.items[sport].contentDetails.upload.videoId
             sportList.push({Title:sportTitle, url:sportUrl});
-           
-
         }
     }
     return sportList;
@@ -130,7 +126,6 @@ function handleClick(event)
     
     document.getElementById("dog-info").style.display = "block"
 
-    
         if (event.target.textContent === 'Songs')
         {
             switchButtonColors()
@@ -245,7 +240,7 @@ function showSongInfo() {
         info.innerHTML += songInfo1
         info.innerHTML += songInfo2
         info.innerHTML += songInfo3
-        switchTitleColors()
+        // switchTitleColors()
         listenToWatchLater()
       
     })
@@ -256,8 +251,8 @@ function switchTitleColors() {
     const arr = Array.from(document.getElementById("side-bar").children)
 
     for (var i = 0 ; i < arr.length ; i ++)  {
-        //debugger
-                if(event.target.id === arr[i].firstElementChild.id) {
+       // debugger
+                if(event.target.id === arr[i].nextElementSibling.firstElementChild.id) {
                     event.target.style.color = "#228DFF";
                     event.target.style.fontFamily = "Iceland"
                     event.target.style.fontSize = "30px"
@@ -265,9 +260,9 @@ function switchTitleColors() {
                     
                 } else {
                     // arr[1].style.color = "pink";
-                    arr[i].firstElementChild.style.color = ""
-                    arr[i].firstElementChild.style.fontFamily = ""
-                    arr[i].firstElementChild.style.fontSize = ""
+                    arr[i].nextElementSibling.firstElementChild.style.color = ""
+                    arr[i].nextElementSibling.firstElementChild.style.fontFamily = ""
+                    arr[i].nextElementSibling.firstElementChild.style.fontSize = ""
                 }
                 
       } 
@@ -275,21 +270,21 @@ function switchTitleColors() {
 
  function switchButtonColors() {
     const arr = Array.from(document.getElementsByTagName("BUTTON"))
-    for (var i = 0 ; i < arr.length ; i ++)  {
-      //  debugger
-        if(event.target.id === arr[i].id) {
-            event.target.style.fontWeight = "bold"
-            event.target.style.color = "black";
-            event.target.style.fontFamily = "Iceland"
-            event.target.style.fontSize = "30px"
+    // for (var i = 0 ; i < arr.length ; i ++)  {
+    //   //  debugger
+    //     if(event.target.id === arr[i].id) {
+    //         event.target.style.fontWeight = "bold"
+    //         event.target.style.color = "black";
+    //         event.target.style.fontFamily = "Iceland"
+    //         event.target.style.fontSize = "30px"
 
-        } else {
-            // arr[i].nextElementSibling.style.fontWeight = ""
-            // arr[i].nextElementSibling.style.fontFamily = ""
-            // arr[i].nextElementSibling.style.fontSize = ""
-            // arr[i].nextElementSibling.style.color = ""
-        }
-    }
+    //     } else {
+    //         // arr[i].nextElementSibling.style.fontWeight = ""
+    //         // arr[i].nextElementSibling.style.fontFamily = ""
+    //         // arr[i].nextElementSibling.style.fontSize = ""
+    //         // arr[i].nextElementSibling.style.color = ""
+    //     }
+    // }
 
  }
 
@@ -369,11 +364,9 @@ function showElementInfo(list) {
         info.innerHTML += eleInfo2
         info.innerHTML += eleInfo3
         listenToWatchLater()
-        switchTitleColors()
+        // switchTitleColors()
     })   
 }
-
-
 
 function renderHomePage(list) {
     const info = document.getElementById("dog-info")
@@ -445,22 +438,68 @@ function fetchWatchLater()
     .then(resp => resp.json())
     .then(data => { 
         allWatchLaters = data
-        // call for render these
+        renderMyProfile() // call to render these
  })
 }
-
 
 function renderMyProfile() {
 
     const info = document.getElementById("dog-info")
     const nav = document.getElementById("sidebar")
+    nav.style.display = "none"
      const user = document.createElement("h1")
      user.innerHTML = "My Profile"
-     nav.style.display = "none"
      info.innerHTML = ""
     //  debugger
-
      info.appendChild(user)
+     const createUl = document.createElement("ul")
+     
+     if (allWatchLaters.length > 0)
+     {
+        createUl.setAttribute("id","WatchUl")
+        allWatchLaters.forEach(ele => {
+            const createLi = document.createElement("li")
+            createLi.textContent = ele.title
+            const delButton = document.createElement("Button")
+            delButton.setAttribute("id",`${ele.id}`)
+            createLi.appendChild(delButton)
+            createUl.appendChild(createLi)
+         })
+         info.appendChild(createUl)
+     }
+     else
+     {
+         let message = "There are no videos to watch later. You can add them now!!"
+         info.innerHTML += message
+     }
+     listenForDelete();
+}
+
+function listenForDelete()
+{
+    document.getElementById("WatchUl").addEventListener('click',deleteVideo);
+}
+
+
+function deleteVideo(event)
+{   
+    if (event.target.tagName == "BUTTON")
+    {
+        let id = parseInt(event.target.id)
+        fetch (`http://localhost:3000/only_watch_laters/${id}`,{method: "DELETE"})
+        .then(resp => {
+            if (resp.status == 204)
+            {
+                alert(event.target.parentElement.textContent.split("(")[0]+" removed from your watch later queue")
+                event.target.parentElement.remove()
+            }
+            else
+            {
+                alert("Please try some time later due to network issues.")
+            }
+        })
+        .catch(error => console.log(error))
+    }
 }
 
 
