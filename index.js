@@ -15,13 +15,12 @@ document.addEventListener("DOMContentLoaded", function(){
    
 //    songChannel.forEach(channel => { fetchSong(channel) })
     
-   // songChannel.forEach(channel => { fetchSong(channel) })
-    // gamesChannel.forEach(channel => { fetchGames(channel) })
-    // moviesChannel.forEach(channel => {fetchMovies(channel)})
-    // sportsChannel.forEach(channel => {fetchSport(channel)})
+   songChannel.forEach(channel => { fetchSong(channel) })
+    gamesChannel.forEach(channel => { fetchGames(channel) })
+    moviesChannel.forEach(channel => {fetchMovies(channel)})
+    sportsChannel.forEach(channel => {fetchSport(channel)})
 
     listenForButtons();
-    // listenToWatchLater();  //Call the watch later
     // toogleWatchLater()
     
 })
@@ -285,21 +284,18 @@ function showElementInfo(list) {
         `
 
         info.innerHTML += eleInfo
-
-    })
+        listenToWatchLater()
+    })   
 }
 
 
-// function listenToWatchLater()
-// {
-//     let button = document.querySelectorAll(".btn")[6]
-//     button.addEventListener("click",addToWatchlater)
-// }
+function listenToWatchLater()
+{
+    let button = document.querySelectorAll(".btn")[6]
+    button.addEventListener("click",addToWatchlater)
+}
 
-// // function addToWatchlater()
-// // {
-// //    /*extract the url,user  , id and pass*/
-// // 
+
 
 function renderHomePage(list) {
     const info = document.getElementById("dog-info")
@@ -323,4 +319,30 @@ function renderHomePage(list) {
 
     info.innerHTML += homepage
 })
+}
+
+function addToWatchlater()
+{
+   /*extract the url,userid and pass*/
+    var url = event.target.previousElementSibling.previousElementSibling.src // (in string)
+    var userId = 4;
+
+    fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({
+            watch_later: {url:url,user_id:userId}
+        })
+    })
+    .then(result => {
+        if (result.status === 204)
+        {
+            alert("Added to Watch later")
+        }
+        else
+        {
+            alert("Oh something happened"+result)
+        }
+    })
+    .catch(error => console.log(error))
 }
