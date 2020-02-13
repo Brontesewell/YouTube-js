@@ -407,7 +407,8 @@ function addToWatchlater()
         var url = event.target.previousElementSibling.previousElementSibling.src // (in string)
         var title = event.target.parentElement.firstElementChild.textContent
         var userId = 1;
-        fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
+        // fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
+            fetch(`https://youchoose-backend-rails.herokuapp.com/users/${userId}/watch_laters`,{
         method:"POST",
         headers:{"Content-Type":"application/json","Accept":"application/json"},
         body:JSON.stringify({
