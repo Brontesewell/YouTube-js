@@ -200,7 +200,7 @@ p a:hover {
 #HomepageTitle {
   color: #28d7fe;
   font-family: lasenter, Allura;
-  font-size: 4vw;
+  font-size: 5vw;
   text-align: center;
   text-shadow: 0.1vw 0vw 0.25vw #eb5732, 0.2vw 0vw 0.25vw #eb5732,
     0.4vw 0vw 0.25vw #eb5732, 0.1vw 0vw 0.1vw #1f9c13, 0.2vw 0vw 0vw #1f9c13,
@@ -234,6 +234,12 @@ p a:hover {
     color: #228DFF;
 }
 
+#nameform {
+  align-content: center;
+  font-size: 30px;
+  text-align: center;
+}
+
 
   .infotitle {
     font-family: Iceland;
@@ -242,21 +248,26 @@ p a:hover {
     font-size: 50px
   }
 
+  #welcome {
+    align-content: center;
+    padding-top: 70px;
+  }
+
+
 #dog-summary-container {
   height: 75vh;
   text-align: center;
+  background-color: lightskyblue;
 }
 
 #dog-info {
-  
-  display: flex;
-  flex-flow: column;
+  width: 100%;
+  height: 100%;
   align-items: center;
   padding-left: 10%;
   padding-right: 10%;
   padding-top: 5%;
   background-color: lightskyblue;
-  background-size: 100%;
 }
 
 

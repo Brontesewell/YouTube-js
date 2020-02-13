@@ -14,10 +14,10 @@ let allWatchLaters = [];
 document.addEventListener("DOMContentLoaded", function(){
    
     songChannel.forEach(channel => { fetchSong(channel) })
-    gamesChannel.forEach(channel => { fetchGames(channel) })
-    moviesChannel.forEach(channel => {fetchMovies(channel)})
-    sportsChannel.forEach(channel => {fetchSport(channel)})
-    //listenForEnter();
+    // gamesChannel.forEach(channel => { fetchGames(channel) })
+    // moviesChannel.forEach(channel => {fetchMovies(channel)})
+    // sportsChannel.forEach(channel => {fetchSport(channel)})
+    listenForEnter();
     listenForButtons();
     fetchWatchLater();
     
@@ -111,15 +111,18 @@ function listenForButtons()
     document.getElementById("dog-bar").addEventListener("click", handleClick)
 }
 
-// function listenForEnter() {
+function listenForEnter() {
 
-//     const submit = document.getElementById("submitname")
-//     const name = document.getElementById("nameform")
-//     name.addEventListener("submit", function(event) {
-//     event.preventDefault()
-//     renderMyProfile()
-//     })
-// }
+    const nav = document.getElementById("sidebar")
+    nav.style.display = "none"
+
+    // const submit = document.getElementById("submitname")
+    // const name = document.getElementById("nameform")
+    // name.addEventListener("submit", function(event) {
+    // event.preventDefault()
+    // renderMyProfile()
+    // })
+}
 
 function handleClick(event)
 {
