@@ -408,7 +408,7 @@ function addToWatchlater()
         var title = event.target.parentElement.firstElementChild.textContent
         var userId = 1;
         // fetch(`http://localhost:3000/users/${userId}/watch_laters`,{
-            fetch(`https://youchoose-backend-rails.herokuapp.com/users/${userId}/watch_laters`,{
+        fetch(`https://youchoose-backend-rails.herokuapp.com/users/${userId}/watch_laters`,{
         method:"POST",
         headers:{"Content-Type":"application/json","Accept":"application/json"},
         body:JSON.stringify({
@@ -500,7 +500,8 @@ function deleteVideo(event)
     if (event.target.tagName == "BUTTON")
     {
         let id = parseInt(event.target.id)
-        fetch (`http://localhost:3000/only_watch_laters/${id}`,{method: "DELETE"})
+        // fetch (`http://localhost:3000/only_watch_laters/${id}`,{method: "DELETE"})
+        fetch (`https://youchoose-backend-rails.herokuapp.com/only_watch_laters/${id}`,{method: "DELETE"})
         .then(resp => {
             if (resp.status == 204)
             {
