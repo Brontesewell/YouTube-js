@@ -442,7 +442,8 @@ function addToWatchlater()
 
 function fetchWatchLater()
 {
-    fetch("http://localhost:3000/only_watch_laters") 
+    // fetch("http://localhost:3000/only_watch_laters") https://youchoose-backend-rails.herokuapp.com/only_watch_laters
+    fetch("https://youchoose-backend-rails.herokuapp.com/only_watch_laters") 
     .then(resp => resp.json())
     .then(data => { 
         allWatchLaters = data
