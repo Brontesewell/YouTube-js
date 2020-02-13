@@ -13,7 +13,7 @@ let allWatchLaters = [];
 
 document.addEventListener("DOMContentLoaded", function(){
    
-    songChannel.forEach(channel => { fetchSong(channel) })
+    // songChannel.forEach(channel => { fetchSong(channel) })
     // gamesChannel.forEach(channel => { fetchGames(channel) })
     // moviesChannel.forEach(channel => {fetchMovies(channel)})
     // sportsChannel.forEach(channel => {fetchSport(channel)})
@@ -184,9 +184,7 @@ function handleClick(event)
     {
         renderMyProfile()
     }
-    else {
-        debugger
-    }
+    
 }
 
 function showSongInfo() {
@@ -414,15 +412,22 @@ function addToWatchlater()
             })
         })
         .then(result => {
-        if (result.status === 204)
+            // debugger
+        if (result.ok === true)
         {
             alert("Added to Watch later")
             document.querySelectorAll(".btn")[6].textContent = "Video Saved"
+
         }
         else
         {
             alert("Oh something happened"+result)
         }
+        return result.json()
+        })
+        .then(data => {
+            allWatchLaters.push(data)
+            console.log(allWatchLaters)
         })
         .catch(error => console.log(error))
    }
@@ -438,7 +443,10 @@ function fetchWatchLater()
     .then(resp => resp.json())
     .then(data => { 
         allWatchLaters = data
-        renderMyProfile() // call to render these
+        if (allWatchLaters.length > 0)
+        {
+            renderMyProfile() // call to render these
+        }
  })
 }
 
@@ -466,13 +474,14 @@ function renderMyProfile() {
             createUl.appendChild(createLi)
          })
          info.appendChild(createUl)
+         listenForDelete();
      }
      else
      {
          let message = "There are no videos to watch later. You can add them now!!"
          info.innerHTML += message
      }
-     listenForDelete();
+     
 }
 
 function listenForDelete()
@@ -492,6 +501,13 @@ function deleteVideo(event)
             {
                 alert(event.target.parentElement.textContent.split("(")[0]+" removed from your watch later queue")
                 event.target.parentElement.remove()
+                allWatchLaters = allWatchLaters.map(ele => {
+                    if (ele.id != id)
+                    {
+                        return ele
+                    }
+                })
+            
             }
             else
             {
