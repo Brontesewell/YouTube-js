@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
     sportsChannel.forEach(channel => {fetchSport(channel)})
     listenForEnter();
     listenForButtons();
-    fetchWatchLater();
+    // fetchWatchLater();
     
 })
 
