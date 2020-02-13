@@ -231,13 +231,13 @@ function showSongInfo() {
         }
         
         const songInfo3 = `<br>
-        <br>
-        <div class="btn-group">
-        <button class="buttons">Like +</button>
-        <p id="liketext"> 0 Likes </p>
-        <button class="buttons">Dislike -</button>
-        </div>
-        `
+        <br>`
+        // <div class="btn-group">
+        // <button class="buttons" id ="like">Like +</button>
+        // <p id="liketext"> 0 Likes </p>
+        // <button class="buttons" id="dislike">Dislike -</button>
+        // </div>
+        
         info.innerHTML += songInfo1
         info.innerHTML += songInfo2
         info.innerHTML += songInfo3
@@ -341,7 +341,7 @@ function showElementInfo(list) {
         if (allWatchLaters.length > 0)
         {   
             allWatchLaters.filter(element => 
-                {
+                {   
                     if ((element.user_id === 1) && (element.url == videoSrc) && (element.saved === true)) 
                     { 
                         eleInfo2 =`<button type="button" id="watchlater" class="btn btn-dark">Video Saved</button>`
@@ -354,19 +354,21 @@ function showElementInfo(list) {
         }
         
         const eleInfo3 = `<br>
-        <br>
-        <div class="btn-group">
-        <button class="buttons">Like +</button>
-        <p id="liketext"> 0 Likes </p>
-        <button class="buttons">Dislike -</button>
-      </div>
-        `
+        <br> `
+    //     <div class="btn-group">
+    //     <button class="buttons">Like +</button>
+    //     <p id="liketext"> 0 Likes </p>
+    //     <button class="buttons">Dislike -</button>
+    //   </div>
+        
         info.innerHTML += eleInfo1
         info.innerHTML += eleInfo2
         info.innerHTML += eleInfo3
         listenToWatchLater()
         // switchTitleColors()
     })   
+    // listenToWatchLater()
+
 }
 
 function renderHomePage(list) {
@@ -395,8 +397,8 @@ function renderHomePage(list) {
 
 function listenToWatchLater()
 {
-    let button = document.querySelectorAll(".btn")[6]
-        button.addEventListener("click",addToWatchlater)
+    let button = document.querySelectorAll(".btn")[5]
+    button.addEventListener("click",addToWatchlater)
 }
 
 function addToWatchlater()
@@ -420,7 +422,7 @@ function addToWatchlater()
         if (result.ok === true)
         {
             alert("Added to Watch later")
-            document.querySelectorAll(".btn")[6].textContent = "Video Saved"
+            document.querySelectorAll(".btn")[5].textContent = "Video Saved"
 
         }
         else
@@ -494,7 +496,6 @@ function listenForDelete()
     document.getElementById("WatchUl").addEventListener('click',deleteVideo);
 }
 
-
 function deleteVideo(event)
 {   
     if (event.target.tagName == "BUTTON")
@@ -507,13 +508,7 @@ function deleteVideo(event)
             {
                 alert(event.target.parentElement.textContent.split("(")[0]+" removed from your watch later queue")
                 event.target.parentElement.remove()
-                allWatchLaters = allWatchLaters.map(ele => {
-                    if (ele.id != id)
-                    {
-                        return ele
-                    }
-                })
-            
+                allWatchLaters = allWatchLaters.filter(ele => ele.id != id);
             }
             else
             {
@@ -523,6 +518,5 @@ function deleteVideo(event)
         .catch(error => console.log(error))
     }
 }
-
 
 
