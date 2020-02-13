@@ -462,31 +462,45 @@ function renderMyProfile() {
     const info = document.getElementById("dog-info")
     const nav = document.getElementById("sidebar")
     nav.style.display = "none"
-     const user = document.createElement("h1")
-     user.innerHTML = "My Profile"
+    const divcontainer = document.createElement("div")
+    divcontainer.setAttribute("class", "divcontainer")
+     const line = document.createElement("h5")
+     const deletebutton = document.createElement("h5")
+     line.innerHTML = "-------------------------------------"
+     deletebutton.innerHTML = "To Delete video click this Button '⬜' below:"
+    //  user.innerHTML = "My Profile"
      info.innerHTML = ""
-    //  debugger
-     info.appendChild(user)
+     const title = `<div id="container">
+     <p><a href="">My Profile</a></p>
+     </div>`
+     divcontainer.innerHTML += title
+    
+     divcontainer.appendChild(deletebutton)
+     divcontainer.appendChild(line)
+     info.appendChild(divcontainer)
+    // info.appendChild(user)
      const createUl = document.createElement("ul")
+    
      
      if (allWatchLaters.length > 0)
      {
         createUl.setAttribute("id","WatchUl")
         allWatchLaters.forEach(ele => {
             const createLi = document.createElement("li")
+            createLi.setAttribute("class", "nodots")
             createLi.textContent = ele.title
             const delButton = document.createElement("Button")
             delButton.setAttribute("id",`${ele.id}`)
             createLi.appendChild(delButton)
             createUl.appendChild(createLi)
          })
-         info.appendChild(createUl)
+         divcontainer.appendChild(createUl)
          listenForDelete();
      }
      else
      {
          let message = "There are no videos to watch later. You can add them now!!"
-         info.innerHTML += message
+         divcontainer.innerHTML += message
      }
      
 }
